@@ -144,6 +144,7 @@ export default {
       background-color: #07C160;
     }
   }
+  
 }
 .footer{
   position: fixed;
