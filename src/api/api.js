@@ -27,5 +27,12 @@ class Api {
   async getFileNotion(){
     return _axios.get(`/api/file/notion`);
   }
+
+  /** 
+   * 保存证券列表文件
+   */
+  async postFileNotion(body){
+    return _axios.post(`/api/file/notion`, body);
+  }
 }
 export default new Api();

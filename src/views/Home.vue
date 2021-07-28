@@ -16,9 +16,20 @@
 
     <!-- 底部菜单 -->
     <div class="footer van-hairline--top">
-      <span class="footer-add van-hairline--right">添加板块</span>
-      <span class="footer-save">保存目录</span>
+      <span class="footer-add van-hairline--right" @click="addItemShow = true">添加板块</span>
+      <span class="footer-save" @click="saveFile">保存目录</span>
     </div>
+
+    <!-- 添加板块 -->
+    <van-popup v-model="addItemShow" position="top" class="add-child">
+      <van-cell-group>
+        <van-field v-model="itemName" label="板块名称" placeholder="请输入股票名称" clearable required/>
+      </van-cell-group>
+      <div class="add-child-button">
+        <span class="add-child-button-item add-child-button-cancel van-hairline--right" @click="addItemShow = false">取消</span>
+        <span class="add-child-button-item add-child-button-confirm" @click="addItem()">确定</span>
+      </div>
+    </van-popup>
 
     <!-- 添加子条目 -->
     <van-popup v-model="addChildShow" position="top" class="add-child">
@@ -44,7 +55,9 @@ export default {
       childName: '',
       childCode: '',
       currentItem: {},
-      currentItemIndex: 0
+      currentItemIndex: 0,
+      addItemShow: false,
+      itemName: ''
     }
   },
   created(){
@@ -82,8 +95,23 @@ export default {
       return tmp
     },
 
+    // 添加板块
+    addItem(){
+      this.list.push({
+        id: `list${this.list.length}`,
+        name: this.itemName,
+        children: []
+      })
+      this.addItemShow = false
+    },
+
     // 删除板块
-    delItem(item, itemIndex){
+    async delItem(item, itemIndex){
+      let dialog = await this.$dialog.confirm({
+        title: '警告',
+        message: `该操作将永久删除《${item.name}》板块，是否确定删除？`,
+      })
+      if(dialog != 'confirm') return
       this.list.splice(itemIndex, 1)
     },
     
@@ -105,11 +133,31 @@ export default {
     },
 
     // 删除子条目
-    delChild(item, itemIndex, child, childIndex){
+    async delChild(item, itemIndex, child, childIndex){
+      let dialog = await this.$dialog.confirm({
+        title: '警告',
+        message: `该操作将永久删除《${child.name}》，是否确定删除？`,
+      })
+      if(dialog != 'confirm') return
       this.list[itemIndex].children.splice(childIndex, 1)
     },
 
-    // saveFile
+    // 保存文件
+    async saveFile(){
+      let tmp = {}
+      this.list.map((item) => {
+        tmp[item.name] = {}
+        item.children.map((child) => {
+          tmp[item.name][child.name] = child.code
+        })
+      })
+      let res = await this.$api.postFileNotion(tmp)
+      if(res && res.data && res.data == 'SUCCESS'){
+        this.$toast.success('保存成功')
+      }else{
+        this.$toast.fail('服务器开小差了，请稍后再试')
+      }
+    }
   }
 }
 </script>
@@ -144,7 +192,6 @@ export default {
       background-color: #07C160;
     }
   }
-  
 }
 .footer{
   position: fixed;
