@@ -25,14 +25,14 @@ class Api {
    * 获取证券列表文件
    */
   async getFileNotion(){
-    return _axios.get(`/api/file/notion`);
+    return _axios.get("api接口");
   }
 
   /** 
    * 保存证券列表文件
    */
   async postFileNotion(body){
-    return _axios.post(`/api/file/notion`, body);
+    return _axios.post("api接口", body);
   }
 }
 export default new Api();
