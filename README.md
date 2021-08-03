@@ -21,6 +21,3 @@ npm run build
 ```
 运行项目前，请将/src/api/api-examply.js文件中的api地址修改为自己的api地址，并将文件重命名为api.js
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
