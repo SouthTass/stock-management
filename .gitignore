@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
 /dist
+/src/api/
+!api-examply
 
 # local env files
 .env.local

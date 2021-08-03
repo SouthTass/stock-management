@@ -20,6 +20,7 @@ class Api {
       return false;
     });
   }
+  
 
   /** 
    * 获取证券列表文件
