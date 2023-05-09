@@ -1,5 +1,6 @@
 module.exports = {
   lintOnSave: false,
+  publicPath: './',
   devServer: {
     open: true,
     overlay: {
@@ -9,6 +10,10 @@ module.exports = {
     proxy: {
       '/api/': {
         target: 'http://47.93.185.110:7000',
+        changeOrigin: true,
+      },
+      '/wx': {
+        target: 'https://sauce.cocosnet.cn',
         changeOrigin: true,
       }
     } 
