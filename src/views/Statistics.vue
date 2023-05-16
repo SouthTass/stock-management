@@ -7,9 +7,13 @@
     </div>
     <div class="home-group">
       <template v-for="item in list">
-        <van-cell class="home-cell" :key="item.id"   
+        <van-cell v-if="item.type == 'text'" class="home-cell" :key="item.id"   
           :title="`${item.from_name}：${item.content}`" :value="item.time"/>
-        <img :key="item.id" :src="item.content">
+        <van-cell  v-if="item.type == 'image'" class="home-cell" :key="item.id" :title="item.from_name">
+          <template #label>
+            <img referrerpolicy="no-referrer" class="record-image" :key="item.id" :src="item.content">
+          </template>
+        </van-cell>
       </template>
     </div>
     <van-empty v-if="list.length < 1" description="暂无记录" />
@@ -74,7 +78,10 @@ export default {
         end_time: `${this.$dayjs(this.endTime).format('YYYY-MM-DD')} 23:59:59`
       }
       if(this.name) params.name = this.name
-      if(this.$route.query.room) params.room = this.$route.query.room
+      if(this.$route.query.room){
+        params.room = this.$route.query.room
+        document.title = params.room
+      } 
       let res = await this.$api.getWxChatRecord(params)
       if(res.status != 200) return this.$toast(res.message)
       if(res.data && res.data.length > 0) {
@@ -122,5 +129,8 @@ export default {
     padding-left: 8px;
     padding-top: 5px;
   }
+}
+.record-image{
+  max-width: 40vw;
 }
 </style>
