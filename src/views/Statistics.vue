@@ -6,8 +6,11 @@
       <span @click="endShow = true">{{endTime | dateFormat('YYYY-MM-DD')}}<van-icon name="play" /></span>
     </div>
     <div class="home-group">
-      <van-cell class="home-cell" v-for="item in list" :key="item.id"   
-        :title="`${item.from_name}：${item.content}`" :value="item.time"/>
+      <template v-for="item in list">
+        <van-cell class="home-cell" :key="item.id"   
+          :title="`${item.from_name}：${item.content}`" :value="item.time"/>
+        <img :key="item.id" :src="item.content">
+      </template>
     </div>
     <van-empty v-if="list.length < 1" description="暂无记录" />
     <van-popup
