@@ -1,7 +1,8 @@
 <template>
-  <div id="home" class="home" :style="{'top': `${top}px`}">
-    <button class="button" @click="animationRender()">开始</button>
+  <div id="home">
+    <img src="http://wxapp.tc.qq.com/262/20304/stodownload?m=c780c5a4354ca4e73bfd01e9055a1eae&filekey=30350201010421301f02020106040253480410c780c5a4354ca4e73bfd01e9055a1eae0203016de7040d00000004627466730000000132&hy=SH&storeid=2631ed840000e02cc000000000000010600004f5053481ccc596097595ad85&bizid=1023">
   </div>
+  
 </template>
 
 <script>

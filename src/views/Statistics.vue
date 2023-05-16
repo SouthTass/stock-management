@@ -66,11 +66,13 @@ export default {
   },
   methods: {
     async getWxChatRecord(){
-      let res = await this.$api.getWxChatRecord({
-        name: this.name, 
+      let params = {
         start_time: `${this.$dayjs(this.startTime).format('YYYY-MM-DD')} 00:00:00`, 
         end_time: `${this.$dayjs(this.endTime).format('YYYY-MM-DD')} 23:59:59`
-      })
+      }
+      if(this.name) params.name = this.name
+      if(this.$route.query.room) params.room = this.$route.query.room
+      let res = await this.$api.getWxChatRecord(params)
       if(res.status != 200) return this.$toast(res.message)
       if(res.data && res.data.length > 0) {
         if(this.list.length > 0 && this.list[0].id == res.data[0].id) return
@@ -94,6 +96,9 @@ export default {
 <style lang="scss" scoped>
 .home-cell ::v-deep .van-cell__title{
   flex: 3 !important;
+  span{
+    word-break: break-all;
+  }
 }
 .home-group{
   padding-top: 96px;
