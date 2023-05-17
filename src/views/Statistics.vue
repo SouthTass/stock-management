@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script>
+<script>  
 export default {
   name: 'home',
   data(){
