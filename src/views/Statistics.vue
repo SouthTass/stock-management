@@ -9,7 +9,8 @@
       <template v-for="item in list">
         <van-cell v-if="item.type == 'text'" class="home-cell" :key="item.id"   
           :title="`${item.from_name}：${item.content}`" :value="item.time"/>
-        <van-cell  v-if="item.type == 'image'" class="home-cell" :key="item.id" :title="item.from_name">
+        <van-cell v-if="item.type == 'image' && showImg" 
+          class="home-cell" :key="item.id" :title="item.from_name">
           <template #label>
             <img referrerpolicy="no-referrer" class="record-image" :key="item.id" :src="item.content">
           </template>
@@ -61,10 +62,12 @@ export default {
       minDate: new Date(2020, 0, 1),
       maxDate: new Date(2025, 10, 1),
       startShow: false,
-      endShow: false
+      endShow: false,
+      showImg: false
     }
   },
   created(){
+    if(this.$route.query.showImg) this.showImg = true
     this.getWxChatUser()
     this.getWxChatRecord()
     setInterval(() => {
