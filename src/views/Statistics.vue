@@ -8,7 +8,13 @@
     <div class="home-group">
       <template v-for="item in list">
         <van-cell v-if="item.type == 'text'" class="home-cell" :key="item.id"   
-          :title="`${item.from_name}：${item.content}`" :value="item.time"/>
+          :title="`${item.from_name}：${item.content}`" :value="item.time"
+          :style="{'color': item.color}">
+          <template #title>
+            <div>FROM：{{item.from_name}}</div>
+            <pre class="cell-pre">{{item.content}}</pre>
+          </template>
+        </van-cell>
         <van-cell v-if="item.type == 'image' && showImg" 
           class="home-cell" :key="item.id" :title="item.from_name">
           <template #label>
@@ -84,14 +90,26 @@ export default {
       if(this.$route.query.room){
         params.room = this.$route.query.room
         document.title = params.room
-      } 
+      }
+      params = {}
       let res = await this.$api.getWxChatRecord(params)
       if(res.status != 200) return this.$toast(res.message)
       if(res.data && res.data.length > 0) {
         if(this.list.length > 0 && this.list[0].id == res.data[0].id) return
-        res.data = res.data.splice(0, 100)
+        let checkUserList = [
+          { name: '山顶动人', id: 'out-man1992'},
+          { name: '远大师', id: 'wxid_y9sdsrm8yw9a22'},
+          { name: 'mary姐', id: 'wxid_91mpeutpvaeh12'},
+          { name: '一梦', id: 'zhangming6877'},
+          { name: '期货', id: '25984983213818793@openim'},
+          { name: '期货2', id: '25984984621874461@openim'},
+          { name: '期货3', id: 'u_5ed4bd27d6ad2_EZkaEkdhbn'}
+        ]
         res.data.map(e => {
+          e.color = '#000000'
           e.time = this.$dayjs(e.created_at).format('HH:mm:ss')
+          let tIndex = checkUserList.findIndex(item => item.id == e.wxid)
+          if(tIndex != -1) e.color = '#ff0000'
         })
         this.list = res.data || []
         this.title = `【${this.list[0].from_name}】 ${this.$dayjs().format('YYYY年MM月DD日')}发言记录`
@@ -135,5 +153,9 @@ export default {
 }
 .record-image{
   max-width: 40vw;
+}
+.cell-pre{
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 </style>

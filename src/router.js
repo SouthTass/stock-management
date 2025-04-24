@@ -12,14 +12,22 @@ const router = new Router({
         title: '首页'
       }
     },
-    { 
-      path: '/animation', 
-      name: 'animation', 
-      components: require('./views/Ainmation.vue'),
+    {
+      path: '/board-ladder',
+      name: 'BoardLadder',
+      components: require('./views/BoardLadder.vue'),
       meta: {
-        title: '动画'
+        title: '连板数据'
       }
-    }
+    },
+    {
+      path: '/futures-group',
+      name: 'FuturesGroup',
+      components: require('./views/FuturesGroup.vue'),
+      meta: {
+        title: '期货记录'
+      }
+    },
   ]
 })
 

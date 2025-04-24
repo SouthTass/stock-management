@@ -8,12 +8,9 @@ module.exports = {
       errors: true
     },
     proxy: {
-      '/api/': {
-        target: 'http://47.93.185.110:7000',
-        changeOrigin: true,
-      },
-      '/wx': {
-        target: 'https://sauce.cocosnet.cn',
+      '/api': {
+        // target: 'http://219.143.134.188:3000',
+        target: 'http://localhost:3000',
         changeOrigin: true,
       }
     } 
